@@ -4,7 +4,7 @@ import { green, orange, purple } from '@material-ui/core/colors';
 export default createMuiTheme({
     palette: {
         secondary: {
-          main: green[800],
+          main: purple[800],
         },
       },
     status: {

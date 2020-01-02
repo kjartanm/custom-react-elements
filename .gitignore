@@ -105,3 +105,9 @@ dist
 
 packages-kopi/
 react-modules/
+public
+packages/test-combined/public/test.theme.js
+packages/test-combined/public/test.module2.js
+packages/test-combined/public/test.module1.js
+packages/test-combined/public/test.context.js
+packages/test-combined/public/test.store.js

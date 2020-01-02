@@ -30,7 +30,7 @@ const plugins = [
     replace({
         "process.env.NODE_ENV": "'production'",
     }),
-    //terser(),
+    terser(),
 ]
 
 const globals = {
