@@ -1,0 +1,22 @@
+{
+    "name": "Reaxct as custom elements",
+    "version": 2,
+    "builds": [
+        {
+            "src": "packages/test-site/index.html",
+            "use": "@now/static"
+        },
+        {
+            "src": "packages/test-combined/package.json",
+            "use": "@now/static-build"
+        }
+    ],
+    "routes": [
+        { "src": "/modules/context-proxy", "dest": "/packages/test-combined/test.context.js" },
+        { "src": "/modules/store", "dest": "/packages/test-combined/test.store.js" },
+        { "src": "/modules/theme", "dest": "/packages/test-combined/test.theme.js" },
+        { "src": "/modules/module-1", "dest": "/packages/test-combined/test.module1.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"}  },
+        { "src": "/modules/module-2", "dest": "/packages/test-combined/test.module2.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"}  },
+        { "src": "/", "dest": "/packages/test-site/index.html" }
+    ]
+}
