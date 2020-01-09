@@ -12,11 +12,11 @@
         }
     ],
     "routes": [
-        { "src": "/modules/theme", "dest": "/packages/react/theme.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"} },
-        { "src": "/modules/store", "dest": "/packages/react/store.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"} },
-        { "src": "/modules/module-1", "dest": "/packages/react/module1.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"}  },
-        { "src": "/modules/module-2", "dest": "/packages/react/module2.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"}  },
-        { "src": "/main.js", "dest": "/packages/legacy/main.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "no-cache"} },
+        { "src": "/modules/theme", "dest": "/packages/react/theme.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "max-age=3600"} },
+        { "src": "/modules/store", "dest": "/packages/react/store.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "max-age=3600"} },
+        { "src": "/modules/module-1", "dest": "/packages/react/module1.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "max-age=3600"}  },
+        { "src": "/modules/module-2", "dest": "/packages/react/module2.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "max-age=3600"}  },
+        { "src": "/main.js", "dest": "/packages/legacy/main.js", "headers": { "Access-Control-Allow-Origin": "*", "cache-control": "max-age=3600"} },
         { "src": "/", "dest": "/packages/legacy/index.html" }
     ]
 }
