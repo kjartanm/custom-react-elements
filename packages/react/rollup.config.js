@@ -20,7 +20,7 @@ const plugins = [
     commonjs({
         include: 'node_modules/**',
         namedExports: {
-            'node_modules/react-is/index.js': ['isValidElementType', 'isContextConsumer', 'ForwardRef'],
+            'node_modules/react-is/index.js': ['isFragment, isValidElementType', 'isContextConsumer', 'ForwardRef'],
             'node_modules/prop-types/index.js': ['elementType'],
         }
     }),
@@ -29,7 +29,7 @@ const plugins = [
     }),
     replace({
         "process.env.NODE_ENV": "'production'",
-    }),
+    },[]),
     terser(),
 ]
 
@@ -37,32 +37,20 @@ const globals = {
     react: 'React',
     redux: 'Redux',
     'react-dom': 'ReactDOM',
-    'context-proxy': 'ContextProxy',
-    'test-theme': 'TestTheme',
-    'test-store': 'testStore',
+    'react-theme': 'reactTheme',
+    'react-store': 'reactStore',
 }
 
-const external = ['react', 'redux', 'react-dom', 'context-proxy', 'test-theme', 'test-store']
+const external = ['react', 'redux', 'react-dom', 'react-theme', 'react-store']
 
 export default [
     {
-        input: 'src/ContextWrapper.js',
-        output: {
-            file: 'public/test.context.js',
-            format: 'iife',
-            globals,
-            name: 'ContextProxy'
-        },
-        external,
-        plugins
-    },
-    {
         input: 'src/Module1Wrapper.js',
         output: {
-            file: 'public/test.module1.js',
+            file: 'public/module1.js',
             format: 'iife',
             globals,
-            name: 'ContextModule'
+            name: 'Module1'
         },
         external,
         plugins
@@ -70,31 +58,31 @@ export default [
     {
         input: 'src/Module2Wrapper.js',
         output: {
-            file: 'public/test.module2.js',
+            file: 'public/module2.js',
             format: 'iife',
             globals,
-            name: 'ContextModule'
+            name: 'Module2'
         },
         external,
         plugins
     }, {
-        input: 'src/TestStore.js',
+        input: 'src/store.js',
         output: {
-            file: 'public/test.store.js',
+            file: 'public/store.js',
             format: 'iife',
             globals,
-            name: 'testStore'
+            name: 'reactStore'
         },
         external,
         plugins
     },
     {
-        input: 'src/Theme.js',
+        input: 'src/theme.js',
         output: {
-            file: 'public/test.theme.js',
+            file: 'public/theme.js',
             format: 'iife',
             globals,
-            name: 'TestTheme'
+            name: 'reactTheme'
         },
         external,
         plugins

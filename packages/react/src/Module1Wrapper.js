@@ -5,5 +5,5 @@ class ReactModule1Component extends HTMLElement {
         Module1Rendrer(this);
     }
 }
-customElements.define('react-test-module1', ReactModule1Component);
+customElements.define('react-module1', ReactModule1Component);
 

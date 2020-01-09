@@ -1,1 +1,0 @@
-var testStore=function(t){"use strict";return Redux.createStore((function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"John Bow",e=arguments.length>1?arguments[1]:void 0;switch(e.type){case"SET_ADDRESSEE":return e.payload;default:return t}}),"Carl Anon")}();

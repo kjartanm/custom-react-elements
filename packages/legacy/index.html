@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PoC Todo App mixing React in Backbone</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16.9.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16.9.0/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/redux@4.0.4/dist/redux.js"></script>
+
+    <script crossorigin src="/modules/theme"></script>
+    <script crossorigin src="/modules/store"></script>
+    <style>
+        :root {
+            --mdc-theme-primary: hsla(336, 76%, 44%, 0.77);
+            --mdc-theme-secondary: hsla(193, 76%, 44%, 0.884);
+        }
+
+        body,
+        section.todoapp {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: aliceblue;
+        }
+
+        main {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer {
+            margin: 0;
+            margin-top: 2rem;
+            padding: 0;
+        }
+
+        .foo-bar {
+            position: relative;
+        }
+
+        .foo-button {
+            margin: 1rem;
+        }
+
+        .foo-danger-button {
+            --mdc-theme-secondary: hsla(0, 76%, 54%, 0.884);
+        }
+
+        .todo-count {
+            display: inline-block;
+            margin: 0;
+            margin-right: 2rem;
+            line-height: 3rem;
+            min-height: 3rem;
+        }
+
+        .mdc-elevation--z1 {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
+            margin: 1rem;
+            min-width: 400px;
+        }
+
+        .foo-label-table {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .foo-chk-box-table {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .module-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto;
+            grid-column-gap: 1rem;
+        }
+
+        .foo-chk-box-show {
+            float: left;
+            display: inline-block;
+        }
+
+        .backbone-version {
+            display: none;
+        }
+
+        .foo-chk-box-show:checked~.backbone-version {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header id="todoheader" class="header mdc-top-app-bar foo-bar">
+            <div class="mdc-top-app-bar__row">
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                    <span class="mdc-top-app-bar__title">PoC Todo App mixing React in Backbone</span>
+
+                </section>
+            </div>
+        </header>
+        <main>
+            <section class="mdc-elevation--z1">
+                <label class="mdc-typography--body2">(this is backbone)</label><br>
+                <div class="mdc-text-field">
+                    <input type="text" id="todo-text-field" class="new-todo mdc-text-field__input">
+                    <label class="mdc-floating-label" for="my-text-field">what to do?</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <button class="foo-button mdc-fab" aria-label="Add todo">
+                    <div class="mdc-fab__ripple"></div>
+                    <span class="mdc-fab__icon material-icons">add</span>
+                </button>
+            </section>
+            <section class="mdc-data-table mdc-elevation--z1">
+                <input id="show-backbone" type="checkbox" class="foo-chk-box-show" />
+                <label class="mdc-typography--body2" for="show-backbone">Show Backbone version of list</label>
+                <table class="backbone-version mdc-data-table__table" aria-label="Todos">
+                    <thead>
+                        <tr class="mdc-data-table__header-row">
+                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Todo</th>
+                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
+                                <label class="toggle-all foo-label-table" for="toggle-all">All Done</label>
+                                <div class="mdc-checkbox foo-chk-box-table ">
+                                    <input id="toggle-all" type="checkbox"
+                                        class="toggle-all mdc-checkbox__native-control" />
+                                    <div class="mdc-checkbox__background">
+                                        <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                            <path class="mdc-checkbox__checkmark-path" fill="none"
+                                                d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                        </svg>
+                                        <div class="mdc-checkbox__mixedmark"></div>
+                                    </div>
+                                    <div class="mdc-checkbox__ripple"></div>
+                                </div>
+                            </th>
+                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Edit</th>
+                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="mdc-data-table__content todo-list">
+                    </tbody>
+                </table>
+            </section>
+            <section class="mdc-elevation--z1">
+                <label class="mdc-typography--body2">(this is two different React modules)</label><br><br>
+                <div class="module-container">
+                    <react-module1></react-module1>
+                    <react-module2></react-module2>
+                </div>
+            </section>
+        </main>
+        <footer class="footer"></footer>
+    </section>
+
+    <script crossorigin src="/main.js"></script>
+    <script crossorigin src="/modules/module-2"></script>
+    <script crossorigin src="/modules/module-1"></script>
+
+    <script type="text/template" id="item-template">
+        <td class="mdc-data-table__cell">
+            <label><%- title %></label>
+        </td>
+        <td class="mdc-data-table__cell">
+            <input class="toggle" type="checkbox" <%= done ? 'checked' : '' %>>
+        </td>
+        <td class="mdc-data-table__cell">
+            <input class="edit" value="<%- title %>">
+        </td>
+        <td class="mdc-data-table__cell">
+            <button class="destroy">Delete</button>
+        </td>
+    </script>
+    <script type="text/template" id="stats-template">
+        <section class="mdc-elevation--z1">
+        <label class="mdc-typography--body2">(this is backbone)</label><br>
+        <h5 class="todo-count mdc-typography--headline5" ><%= remaining %> <%= remaining === 1 ? 'item' : 'items' %> left, <%= done %> done </h5>
+        <!--ul class="filters">
+            <li>
+                <a class="selected" href="#/">All</a>
+            </li>
+            <li>
+                <a href="#/active">Active</a>
+            </li>
+            <li>
+                <a href="#/completed">Completed</a>
+            </li>
+        </ul-->
+        <% if (done) { %>
+            <button class="clear-completed foo-danger-button mdc-fab mdc-fab--extended" aria-label="Clear completed">
+                <div class="mdc-fab__ripple"></div>
+                <span class="mdc-fab__label">Clear</span>
+              </button>
+        <% } %>
+        </section>
+    </script>
+
+</body>
+
+</html>
